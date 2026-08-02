@@ -8,7 +8,7 @@ from aiohttp import web
 
 # Render Environment Variable থেকে BOT_TOKEN নেওয়া হবে
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-WEBAPP_URL = "https://ais-dev-ghmeiplktkbuoreu74birv-782579731932.asia-southeast1.run.app"
+WEBAPP_URL = "https://ais-pre-ghmeiplktkbuoreu74birv-782579731932.asia-southeast1.run.app"
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=BOT_TOKEN)
