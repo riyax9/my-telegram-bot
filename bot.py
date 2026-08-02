@@ -1,12 +1,12 @@
 import logging
 import asyncio
-from aiogram import Bot, Dispatcher, types, F
+import os
+from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandStart
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 
-# আপনার BotFather API Token এখানে বসান
-BOT_TOKEN = "8807675193:AAElKX_uiGRTezFzKXIFK5S_-KOP1ELs_2M"
-# আপনার মিনি অ্যাপের WebApp URL (বা WebApp লিংক)
+# Render এর Environment Variables থেকে টোকেন নেওয়া হবে
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 WEBAPP_URL = "https://ais-dev-ghmeiplktkbuoreu74birv-782579731932.asia-southeast1.run.app"
 
 logging.basicConfig(level=logging.INFO)
