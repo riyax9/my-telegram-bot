@@ -6,12 +6,12 @@ from aiogram.filters import CommandStart
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 from aiohttp import web
 
-# Render Environment Variable থেকে টোকেন নেওয়া
+# Render Environment Variable থেকে BOT_TOKEN নেওয়া হবে
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 WEBAPP_URL = "https://ais-dev-ghmeiplktkbuoreu74birv-782579731932.asia-southeast1.run.app"
 
 logging.basicConfig(level=logging.INFO)
-bot = Bot(token=BOT_TOKEN) if BOT_TOKEN else None
+bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
 @dp.message(CommandStart())
@@ -45,29 +45,24 @@ async def cmd_start(message: types.Message):
     
     await message.answer(welcome_text, reply_markup=keyboard)
 
-# Render Port Health Check Server (Render Web Service Active রাখার জন্য)
-async def handle_health_check(request):
-    return web.Response(text="Bot is running live!")
+# Render-এর Port Binding ও Health Check এর জন্য ডামি ওয়েব সার্ভার
+async def handle_ping(request):
+    return web.Response(text="Bot is Live and Running!")
 
 async def start_web_server():
     app = web.Application()
-    app.router.add_get('/', handle_health_check)
+    app.router.add_get('/', handle_ping)
     runner = web.AppRunner(app)
     await runner.setup()
     port = int(os.getenv("PORT", 8080))
     site = web.TCPSite(runner, '0.0.0.0', port)
     await site.start()
-    print(f"Web server started on port {port}")
+    print(f"Web server running on port {port}")
 
 async def main():
-    if not BOT_TOKEN:
-        print("ERROR: BOT_TOKEN environment variable missing!")
-        return
-        
-    print("Bot is starting...")
-    # Render-এর জন্য Web Server চালু
+    print("Starting Web Server for Render...")
     await start_web_server()
-    # টেলিগ্রাম বট Polling চালু
+    print("Bot is polling...")
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
